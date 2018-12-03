@@ -1,6 +1,6 @@
 # Geocoded National Address File (G-NAF) Importer
 
-Imports a G-NAF extract into a new PostgreSQL database running in Docker. The script uses as much of the data provided in a G-NAF release as possible, so it should hopefully remain compatible with future data releases. The script is written in Python 3 and requires the Psycopg module (Python-PostgreSQL Database Adapter).
+Imports a G-NAF extract into a new PostgreSQL database running in Docker. The script uses as much of the data provided in a G-NAF release as possible, so it should hopefully remain compatible with future data releases. The script is written in Python 3 and requires the module Psycopg (Python-PostgreSQL Database Adapter).
 
 The G-NAF dataset includes over 13 million Australian address records, and is provided by Australia's federal, state, and territory governments under a Creative Commons Attribution 4.0 International licence (CC BY 4.0).
 
@@ -14,6 +14,10 @@ You can adapt this script to use an existing PostgreSQL installation if you pref
 1. Create a new PostgreSQL container with Docker:
     ```
     docker run --name gnaf -d -e POSTGRESQL_PASSWORD=postgres -p 5432:5432 bitnami/postgresql:10.0
+    ```
+1. Install Psycopg
+    ```
+    pip3 install psycopg2
     ```
 1. Run the script to import the data:
     ```

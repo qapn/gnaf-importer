@@ -9,7 +9,7 @@ from datetime import datetime
 
 start_time = datetime.now()
 
-print('Welcome to the GNAF PostgreSQL Importer.')
+print('Welcome to the G-NAF PostgreSQL Importer.')
 
 # Set up connection
 print('Connecting to database...')
@@ -17,8 +17,8 @@ pg_connection = psycopg2.connect('host=localhost dbname=postgres user=postgres p
 pg_connection.set_session(autocommit=True)
 cursor = pg_connection.cursor()
 
-# Create GNAF database
-print('Creating GNAF database...')
+# Create G-NAF database
+print('Creating G-NAF database...')
 cursor.execute('CREATE DATABASE gnaf')
 
 # Terminate connection so we can reconnect to our newly created DB instead
@@ -30,11 +30,11 @@ pg_connection = psycopg2.connect('host=localhost dbname=gnaf user=postgres passw
 pg_connection.set_session(autocommit=True)
 cursor = pg_connection.cursor()
 
-# Import GNAF schema
+# Import G-NAF schema
 print('Importing schema...')
 cursor.execute(open('G-NAF/Extras/GNAF_TableCreation_Scripts/create_tables_ansi.sql', 'r').read())
 
-# Go through GNAF data files
+# Go through G-NAF data files
 for filename in glob.glob('G-NAF/G-NAF*/Standard/*.psv'):
     file = open(filename, 'r')
     # Remove with regex the first characters up to and including the underscore (to remove state labels) as well as the trailing _psv.psv
@@ -73,4 +73,4 @@ cursor.close()
 pg_connection.close()
 time_taken = datetime.now() - start_time
 minutes, seconds = divmod(time_taken.seconds, 60)
-print('GNAF data was successfully imported in ' + str(minutes) + ' minutes, ' + str(seconds) + ' seconds.')
+print('G-NAF data was successfully imported in ' + str(minutes) + ' minutes, ' + str(seconds) + ' seconds.')
