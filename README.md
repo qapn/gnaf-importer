@@ -24,4 +24,4 @@ You can adapt this script to use an existing PostgreSQL installation if you pref
     python3 import_gnaf.py
     ```
 
-The import take less than 20 minutes to complete on most hardware.
+The import should take less than 20 minutes to complete on most hardware.
