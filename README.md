@@ -15,7 +15,7 @@ The G-NAF dataset includes over 13 million Australian address records, and is pr
     ```
     docker run --name gnaf -d -e POSTGRESQL_PASSWORD=postgres -p 5432:5432 postgres:latest
     ```
-1. Install Psycopg
+1. Install Psycopg:
     ```
     pip3 install psycopg2-binary
     ```
@@ -68,6 +68,10 @@ The G-NAF dataset includes over 13 million Australian address records, and is pr
     SELECT * FROM national_address_list WHERE autocomplete LIKE '%PARRAMATTA HIGH SCHOOL%';
     ```
     With the included index, this should be very quick for any query.
+
+* **How often do I need to update this database?**
+
+    There's a new G-NAF release every month.
     
 * **I searched for X address/business and the result was incorrect/missing!**
 
