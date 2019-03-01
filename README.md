@@ -44,9 +44,14 @@ The G-NAF dataset includes over 13 million Australian address records, and is pr
 
 * **Can I use this on macOS / Windows / Linux?**
 
-    I've only tested it on Ubuntu 18.04. I use GNU `sed` on one of the G-NAF source files to escape a backslash, this certainly won't work on macOS (includes BSD `sed`) or Windows. You can either escape the backslash manually (it's in the `NSW_ADDRESS_SITE_psv.psv` file) and comment out that line of the importer, or macOS users can install GNU `sed` with Homebrew:
+    I have tested this on macOS Mojave and Ubuntu 18.04. I use GNU `sed` on one of the G-NAF source files to escape a backslash, this won't work out of the box on macOS (includes BSD `sed`) or Windows. You can either escape the backslash manually (it's in the `NSW_ADDRESS_SITE_psv.psv` file) and comment out that line of the importer, or macOS users can install GNU `sed` with Homebrew:
     ```
-    brew install gnu-sed --with-default-names
+    brew install gnu-sed
+    ```
+    And add this to your .bashrc (or .zshrc etc.) file:
+    ```
+    # GNU sed
+    PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
     ```
 
 * **What does your flat address table/autocomplete column look like?**
@@ -72,6 +77,10 @@ The G-NAF dataset includes over 13 million Australian address records, and is pr
 * **How often do I need to update this database?**
 
     There's a new G-NAF release every month.
+
+* **Which G-NAF release is this script compatible with?**
+
+    Any of them should work. I've most recently run it successfully with the February 2019 release.
     
 * **I searched for X address/business and the result was incorrect/missing!**
 
