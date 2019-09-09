@@ -10,6 +10,10 @@ from datetime import datetime
 from psycopg2.extras import RealDictCursor
 from psycopg2.extras import execute_values
 
+HOST=os.getenv('DATABASE_HOST', 'localhost')
+PASSWORD=os.getenv('DATABASE_PASSWORD', 'postgres')
+USER=os.getenv('DATABASE_USER', 'postgres')
+
 parser = argparse.ArgumentParser(description='Build a G-NAF database.')
 parser.add_argument('--raw', action='store_true', help='import the raw G-NAF data without transformation')
 args = parser.parse_args()
@@ -35,7 +39,7 @@ else:
 
 # Set up connection
 print('Connecting to PostgreSQL server...')
-pg_connection = psycopg2.connect('host=localhost dbname=postgres user=postgres password=postgres')
+pg_connection = psycopg2.connect(f"host={HOST} dbname=postgres user={USER} password={PASSWORD}")
 pg_connection.set_session(autocommit=True)
 cursor = pg_connection.cursor()
 
@@ -48,7 +52,7 @@ cursor.close()
 pg_connection.close()
 
 # Set up connection again
-pg_connection = psycopg2.connect('host=localhost dbname=gnaf user=postgres password=postgres')
+pg_connection = psycopg2.connect(f'host={HOST} dbname=gnaf user={USER} password={PASSWORD}')
 pg_connection.set_session(autocommit=True)
 cursor = pg_connection.cursor()
 
@@ -97,7 +101,7 @@ pg_connection.close()
 if args.raw:
     # Build indexes so our database is nice and fast
     print('Building indexes...')
-    pg_connection = psycopg2.connect('host=localhost dbname=gnaf user=postgres password=postgres')
+    pg_connection = psycopg2.connect(f"host={HOST} dbname=gnaf user={USER} password={PASSWORD}")
     pg_connection.set_session(autocommit=True)
     cursor = pg_connection.cursor()
     cursor.execute('CREATE INDEX address_detail_flat_type_code ON address_detail (flat_type_code)')
@@ -117,7 +121,7 @@ if args.raw:
     pg_connection.close()
 else:
     print('Building flat address table from address view...')
-    pg_connection = psycopg2.connect('host=localhost dbname=gnaf user=postgres password=postgres')
+    pg_connection = psycopg2.connect(f"host={HOST} dbname=gnaf user={USER} password={PASSWORD}")
     pg_connection.set_session(autocommit=True)
     cursor = pg_connection.cursor()
     cursor.execute('CREATE TABLE national_address_list AS SELECT * FROM public.address_view')
@@ -131,7 +135,7 @@ else:
     states = ['ACT', 'NSW', 'NT', 'OT', 'QLD', 'SA', 'TAS', 'VIC', 'WA']
     for state in states:
         # Re-open our cursor with the ability to see column names
-        pg_connection = psycopg2.connect('host=localhost dbname=gnaf user=postgres password=postgres')
+        pg_connection = psycopg2.connect(f"host={HOST} dbname=gnaf user={USER} password={PASSWORD}")
         pg_connection.set_session(autocommit=True)
         cursor = pg_connection.cursor(cursor_factory=RealDictCursor)
         cursor.itersize = 10000
@@ -162,7 +166,7 @@ else:
         pg_connection.close()
 
         # Bulk update every address in the database from our list
-        pg_connection = psycopg2.connect('host=localhost dbname=gnaf user=postgres password=postgres')
+        pg_connection = psycopg2.connect(f"host={HOST} dbname=gnaf user={USER} password={PASSWORD}")
         pg_connection.set_session(autocommit=True)
         cursor = pg_connection.cursor()
         print('Bulk updating every address in %s with an autocomplete string...' %(state))
@@ -172,7 +176,7 @@ else:
 
     # Build a fancy GIN index
     print('Building indexes...')
-    pg_connection = psycopg2.connect('host=localhost dbname=gnaf user=postgres password=postgres')
+    pg_connection = psycopg2.connect(f"host={HOST} dbname=gnaf user={USER} password={PASSWORD}")
     pg_connection.set_session(autocommit=True)
     cursor = pg_connection.cursor()
     cursor.execute('CREATE EXTENSION btree_gin')
@@ -186,7 +190,7 @@ else:
 
 # Vacuum and optimise our database
 print('Vacuuming and optimising database...')
-pg_connection = psycopg2.connect('host=localhost dbname=gnaf user=postgres password=postgres')
+pg_connection = psycopg2.connect(f"host={HOST} dbname=gnaf user={USER} password={PASSWORD}")
 pg_connection.set_session(autocommit=True)
 cursor = pg_connection.cursor()
 cursor.execute('VACUUM ANALYZE')
