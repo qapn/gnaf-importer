@@ -13,7 +13,7 @@ The G-NAF dataset includes over 13 million Australian address records, and is pr
 1. Extract the G-NAF folder inside the archive to the same directory as this repository (such that you have a top level directory called "G-NAF").
 1. Create a new PostgreSQL container with Docker:
     ```
-    docker run --name gnaf -d -e POSTGRESQL_PASSWORD=postgres -p 5432:5432 postgres:latest
+    docker run --name gnaf -d -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:latest
     ```
 1. Install Psycopg:
     ```
